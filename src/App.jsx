@@ -1,14 +1,19 @@
+// Importing useEffect for side-effects like API calls
 import { useEffect } from "react"
+// Importing global CSS styles
 import "./App.css"
-// Redux
+
+// Redux-related imports for state management
 import { useDispatch, useSelector } from "react-redux"
-// React Router
+// React Router imports for routing and navigation
 import { Route, Routes, useNavigate } from "react-router-dom"
 
-// Components
+// Components - Navbar and route-specific wrappers
 import Navbar from "./components/Common/Navbar"
 import OpenRoute from "./components/core/Auth/OpenRoute"
 import PrivateRoute from "./components/core/Auth/PrivateRoute"
+
+// Dashboard components
 import AddCourse from "./components/core/Dashboard/AddCourse"
 import Cart from "./components/core/Dashboard/Cart"
 import EditCourse from "./components/core/Dashboard/EditCourse"
@@ -25,25 +30,32 @@ import CourseDetails from "./pages/CourseDetails"
 import Dashboard from "./pages/Dashboard"
 import Error from "./pages/Error"
 import ForgotPassword from "./pages/ForgotPassword"
-// Pages
+
+// General Pages
 import Home from "./pages/Home"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup"
 import UpdatePassword from "./pages/UpdatePassword"
 import VerifyEmail from "./pages/VerifyEmail"
 import ViewCourse from "./pages/ViewCourse"
+
+// Redux action to fetch user details
 import { getUserDetails } from "./services/operations/profileAPI"
+
+// Account types (constants for roles)
 import { ACCOUNT_TYPE } from "./utils/constants"
 
 function App() {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { user } = useSelector((state) => state.profile)
-
+  const dispatch = useDispatch(); // To dispatch Redux actions
+  const navigate = useNavigate(); // To programmatically navigate to other routes
+  const { user } = useSelector((state) => state.profile); // Accessing user data from Redux state
+  
+  // useEffect runs on component mount
   useEffect(() => {
+    // If a token exists in localStorage, fetch user details
     if (localStorage.getItem("token")) {
       const token = JSON.parse(localStorage.getItem("token"))
-      dispatch(getUserDetails(token, navigate))
+      dispatch(getUserDetails(token, navigate)); // Dispatch action to fetch user details
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
