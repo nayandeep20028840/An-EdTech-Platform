@@ -1,15 +1,14 @@
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcrypt") // For hashing passwords
 const User = require("../models/User")
-const OTP = require("../models/OTP")
-const jwt = require("jsonwebtoken")
-const otpGenerator = require("otp-generator")
-const mailSender = require("../utils/mailSender")
-const { passwordUpdated } = require("../mail/templates/passwordUpdate")
-const Profile = require("../models/Profile")
-require("dotenv").config()
+const OTP = require("../models/OTP") // OTP model
+const jwt = require("jsonwebtoken") // For generating JWT tokens
+const otpGenerator = require("otp-generator") // For generating OTPs
+const mailSender = require("../utils/mailSender") // Utility for sending emails
+const { passwordUpdated } = require("../mail/templates/passwordUpdate") // Email template for password updates
+const Profile = require("../models/Profile") 
+require("dotenv").config() // Load environment variables
 
 // Signup Controller for Registering USers
-
 exports.signup = async (req, res) => {
   try {
     // Destructure fields from the request body
@@ -72,7 +71,7 @@ exports.signup = async (req, res) => {
       })
     }
 
-    // Hash the password
+    // Hash the password for security
     const hashedPassword = await bcrypt.hash(password, 10)
 
     // Create the user
@@ -86,6 +85,7 @@ exports.signup = async (req, res) => {
       about: null,
       contactNumber: null,
     })
+    // Create the user document
     const user = await User.create({
       firstName,
       lastName,
