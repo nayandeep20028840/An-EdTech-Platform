@@ -1,7 +1,8 @@
 // Importing required modules
-const jwt = require("jsonwebtoken");
-const dotenv = require("dotenv");
-const User = require("../models/User");
+const jwt = require("jsonwebtoken"); // For generating and verifying JSON Web Tokens (JWTs)
+const dotenv = require("dotenv"); // For loading environment variables from .env file
+const User = require("../models/User"); // Importing the User model to interact with the user database
+
 // Configuring dotenv to load environment variables from .env file
 dotenv.config();
 
@@ -42,6 +43,8 @@ exports.auth = async (req, res, next) => {
 		});
 	}
 };
+
+// Middleware function to verify if the user is a student
 exports.isStudent = async (req, res, next) => {
 	try {
 		const userDetails = await User.findOne({ email: req.user.email });
@@ -59,6 +62,8 @@ exports.isStudent = async (req, res, next) => {
 			.json({ success: false, message: `User Role Can't be Verified` });
 	}
 };
+
+// Middleware function to verify if the user is an admin
 exports.isAdmin = async (req, res, next) => {
 	try {
 		const userDetails = await User.findOne({ email: req.user.email });
@@ -76,11 +81,14 @@ exports.isAdmin = async (req, res, next) => {
 			.json({ success: false, message: `User Role Can't be Verified` });
 	}
 };
+
+// Middleware function to verify if the user is an instructor
 exports.isInstructor = async (req, res, next) => {
 	try {
+    // Fetching user details from the database based on the decoded token email
 		const userDetails = await User.findOne({ email: req.user.email });
+    
 		console.log(userDetails);
-
 		console.log(userDetails.accountType);
 
 		if (userDetails.accountType !== "Instructor") {
@@ -89,6 +97,7 @@ exports.isInstructor = async (req, res, next) => {
 				message: "This is a Protected Route for Instructor",
 			});
 		}
+    // If the user is an instructor, proceed to the next middleware or request handler
 		next();
 	} catch (error) {
 		return res
