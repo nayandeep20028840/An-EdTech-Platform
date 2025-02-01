@@ -5,7 +5,7 @@ export const NavbarLinks = [
   },
   {
     title: "Catalog",
-    // path: '/catalog',
+    // path: '/catalog', // it is commented out because we have to select python, web development by hovering over it
   },
   {
     title: "About Us",

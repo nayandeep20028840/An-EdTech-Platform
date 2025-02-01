@@ -8,9 +8,10 @@ import IconBtn from "../../Common/IconBtn"
 import CoursesTable from "./InstructorCourses/CoursesTable"
 
 export default function MyCourses() {
-  const { token } = useSelector((state) => state.auth)
-  const navigate = useNavigate()
-  const [courses, setCourses] = useState([])
+  const { token } = useSelector((state) => state.auth)  // Access user's authentication token from Redux store.
+  const navigate = useNavigate()  // Get the function to programmatically navigate between routes.
+  const [courses, setCourses] = useState([])  // State to store and update the list of courses, initialized as an empty array.
+
 
   useEffect(() => {
     const fetchCourses = async () => {

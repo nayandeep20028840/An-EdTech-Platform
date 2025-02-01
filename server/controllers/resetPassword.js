@@ -39,7 +39,8 @@ exports.resetPasswordToken = async (req, res) => {
     // Log updated user details (for debugging purposes)
     console.log("DETAILS", updatedDetails)
 
-    // const url = `http://localhost:3000/update-password/${token}`
+    // const url = `http://localhost:3000/update-password/${token}` // For Localhost
+
     // Construct the password reset URL with the generated token
     const url = `https://studynotion-edtech-project.vercel.app/update-password/${token}`
 
@@ -87,8 +88,10 @@ exports.resetPassword = async (req, res) => {
         message: `Token is Expired, Please Regenerate Your Token`,
       })
     }
+
     // Encrypt the new password using bcrypt
     const encryptedPassword = await bcrypt.hash(password, 10)
+    
     // Update the user's password and remove the token
     await User.findOneAndUpdate(
       { token: token },

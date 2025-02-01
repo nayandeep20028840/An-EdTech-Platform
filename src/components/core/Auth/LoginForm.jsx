@@ -13,6 +13,7 @@ function LoginForm() {
     password: "",
   })
 
+  // State for controlling the visibility of the password
   const [showPassword, setShowPassword] = useState(false)
 
   const { email, password } = formData

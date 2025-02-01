@@ -13,35 +13,33 @@ const { cloudinaryConnect } = require("./config/cloudinary");
 const fileUpload = require("express-fileupload");
 const dotenv = require("dotenv");
 
-// Setting up port number
-const PORT = process.env.PORT || 4000;
 
-// Loading environment variables from .env file
-dotenv.config();
+dotenv.config(); // Loading environment variables from .env file
 
-// Connecting to database
-database.connect();
+const PORT = process.env.PORT || 4000; // Setting up port number
+
+database.connect(); // Connecting to database
 
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: "*",
-		credentials: true,
+		origin: "*", // Allow all origins
+		credentials: true, // Allow cookies to be sent across origins
 	})
 );
 app.use(
 	fileUpload({
-		useTempFiles: true,
-		tempFileDir: "/tmp/",
+		useTempFiles: true, // Use temporary files for file uploads
+		tempFileDir: "/tmp/", // Set the temporary directory for storing files
 	})
 );
 
 // Connecting to cloudinary
 cloudinaryConnect();
 
-// Setting up routes
+// Setting up routes 
 app.use("/api/v1/auth", userRoutes);
 app.use("/api/v1/profile", profileRoutes);
 app.use("/api/v1/course", courseRoutes);
@@ -52,7 +50,7 @@ app.use("/api/v1/reach", contactUsRoute);
 app.get("/", (req, res) => {
 	return res.json({
 		success: true,
-		message: "Your server is up and running ...",
+		message: "Your server is up and running...",
 	});
 });
 

@@ -1,11 +1,12 @@
-import { toast } from "react-hot-toast"
+import { toast } from "react-hot-toast" // Import toast for displaying notifications
 
 import { setLoading, setToken } from "../../slices/authSlice"
 import { resetCart } from "../../slices/cartSlice"
 import { setUser } from "../../slices/profileSlice"
 import { apiConnector } from "../apiConnector"
-import { endpoints } from "../apis"
+import { endpoints } from "../apis" // API endpoint URLs
 
+// Destructure the required endpoints
 const {
   SENDOTP_API,
   SIGNUP_API,
@@ -14,11 +15,13 @@ const {
   RESETPASSWORD_API,
 } = endpoints
 
+// Function to send an OTP for email verification
 export function sendOtp(email, navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
-    dispatch(setLoading(true))
+    dispatch(setLoading(true)) // Dispatch the loading state to true
     try {
+      // Make an API call to send OTP
       const response = await apiConnector("POST", SENDOTP_API, {
         email,
         checkUserPresent: true,
@@ -28,7 +31,7 @@ export function sendOtp(email, navigate) {
       console.log(response.data.success)
 
       if (!response.data.success) {
-        throw new Error(response.data.message)
+        throw new Error(response.data.message) // Throw an error if the response is not successful
       }
 
       toast.success("OTP Sent Successfully")
@@ -42,6 +45,7 @@ export function sendOtp(email, navigate) {
   }
 }
 
+// Function to sign up a user
 export function signUp(
   accountType,
   firstName,
@@ -53,9 +57,10 @@ export function signUp(
   navigate
 ) {
   return async (dispatch) => {
-    const toastId = toast.loading("Loading...")
+    const toastId = toast.loading("Loading...") // Show a loading toast
     dispatch(setLoading(true))
     try {
+      // Make an API call to sign up a user
       const response = await apiConnector("POST", SIGNUP_API, {
         accountType,
         firstName,
@@ -83,6 +88,7 @@ export function signUp(
   }
 }
 
+// Function to log in a user
 export function login(email, password, navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
@@ -101,6 +107,7 @@ export function login(email, password, navigate) {
 
       toast.success("Login Successful")
       dispatch(setToken(response.data.token))
+      // Set user image if available, else generate initials image
       const userImage = response.data?.user?.image
         ? response.data.user.image
         : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.firstName} ${response.data.user.lastName}`
@@ -116,6 +123,7 @@ export function login(email, password, navigate) {
   }
 }
 
+// Function to get a password reset token
 export function getPasswordResetToken(email, setEmailSent) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
@@ -142,11 +150,13 @@ export function getPasswordResetToken(email, setEmailSent) {
   }
 }
 
+// Function to reset a user's password
 export function resetPassword(password, confirmPassword, token, navigate) {
-  return async (dispatch) => {
+  return async (dispatch) => { // Dispatch function
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
     try {
+      // Make an API call to reset the password
       const response = await apiConnector("POST", RESETPASSWORD_API, {
         password,
         confirmPassword,
@@ -170,6 +180,7 @@ export function resetPassword(password, confirmPassword, token, navigate) {
   }
 }
 
+// Function to log out a user
 export function logout(navigate) {
   return (dispatch) => {
     dispatch(setToken(null))

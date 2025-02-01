@@ -6,13 +6,13 @@ import { apiConnector } from "../../../services/apiConnector"
 import { contactusEndpoint } from "../../../services/apis"
 
 const ContactUsForm = () => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false) // State to track form submission loading status
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors, isSubmitSuccessful },
-  } = useForm()
+  } = useForm() // Using react-hook-form for form management and validation
 
   const submitContactForm = async (data) => {
     // console.log("Form Data - ", data)
@@ -174,11 +174,11 @@ const ContactUsForm = () => {
         disabled={loading}
         type="submit"
         className={`rounded-md bg-yellow-50 px-6 py-3 text-center text-[13px] font-bold text-black shadow-[2px_2px_0px_0px_rgba(255,255,255,0.18)] 
-         ${
-           !loading &&
-           "transition-all duration-200 hover:scale-95 hover:shadow-none"
-         }  disabled:bg-richblack-500 sm:text-[16px] `}
-      >
+          ${
+            !loading &&
+            "transition-all duration-200 hover:scale-95 hover:shadow-none"
+          }  disabled:bg-richblack-500 sm:text-[16px] `}
+        >
         Send Message
       </button>
     </form>

@@ -11,11 +11,11 @@ import IconBtn from "../../../../Common/IconBtn"
 export default function PublishCourse() {
   const { register, handleSubmit, setValue, getValues } = useForm()
 
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { token } = useSelector((state) => state.auth)
-  const { course } = useSelector((state) => state.course)
-  const [loading, setLoading] = useState(false)
+  const dispatch = useDispatch()  // Hook from Redux to dispatch actions to the Redux store.
+  const navigate = useNavigate()  // Hook from React Router to handle navigation between routes.
+  const { token } = useSelector((state) => state.auth)  // Accessing the authentication token from the Redux store (from the 'auth' slice).
+  const { course } = useSelector((state) => state.course)  // Accessing the current course details from the Redux store (from the 'course' slice).
+  const [loading, setLoading] = useState(false)  // Managing the loading state using React's useState hook. Initially set to false, it will be used to show loading indicators during async operations.
 
   useEffect(() => {
     if (course?.status === COURSE_STATUS.PUBLISHED) {

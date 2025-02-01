@@ -1,24 +1,18 @@
 import { useEffect } from "react";
 
-// This hook detects clicks outside of the specified component and calls the provided handler function.
-export default function useOnClickOutside(ref, handler) {
+export default function useOnClickOutside(ref, handler) { // Custom hook to handle clicks/touches outside a given element
   useEffect(() => {
-    // Define the listener function to be called on click/touch events
-    const listener = (event) => {
-      // If the click/touch event originated inside the ref element, do nothing
+    const listener = (event) => { // Event listener that closes the modal when a click/touch event is detected outside the ref element
       if (!ref.current || ref.current.contains(event.target)) {
         return;
       }
-      // Otherwise, call the provided handler function
       handler(event);
     };
 
-    // Add event listeners for mousedown and touchstart events on the document
     document.addEventListener("mousedown", listener);
     document.addEventListener("touchstart", listener);
 
-    // Cleanup function to remove the event listeners when the component unmounts or when the ref/handler dependencies change
-    return () => {
+    return () => { // Cleanup function that removes the event listeners when the component is unmounted
       document.removeEventListener("mousedown", listener);
       document.removeEventListener("touchstart", listener);
     };

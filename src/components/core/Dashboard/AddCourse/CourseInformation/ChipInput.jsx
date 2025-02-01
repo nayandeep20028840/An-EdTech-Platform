@@ -1,7 +1,6 @@
-// Importing React hook for managing component state
-import { useEffect, useState } from "react"
-// Importing React icon component
-import { MdClose } from "react-icons/md"
+
+import { useEffect, useState } from "react" // Importing React hook for managing component state
+import { MdClose } from "react-icons/md" // Importing React icon component
 import { useSelector } from "react-redux"
 
 // Defining a functional component ChipInput
@@ -34,14 +33,13 @@ export default function ChipInput({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chips])
 
-  // Function to handle user input when chips are added
-  const handleKeyDown = (event) => {
-    // Check if user presses "Enter" or ","
-    if (event.key === "Enter" || event.key === ",") {
-      // Prevent the default behavior of the event
-      event.preventDefault()
-      // Get the input value and remove any leading/trailing spaces
-      const chipValue = event.target.value.trim()
+  
+  const handleKeyDown = (event) => { // Function to handle user input when chips are added
+    
+    if (event.key === "Enter" || event.key === ",") { // Check if user presses "Enter" or ","
+      
+      event.preventDefault() // Prevent the default behavior of the event
+      const chipValue = event.target.value.trim() // Get the input value and remove any leading/trailing spaces
       // Check if the input value exists and is not already in the chips array
       if (chipValue && !chips.includes(chipValue)) {
         // Add the chip to the array and clear the input

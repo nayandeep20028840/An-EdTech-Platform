@@ -1,14 +1,12 @@
-// Import the Mongoose library to interact with MongoDB
-const mongoose = require("mongoose");
 
-// Load environment variables from a `.env` file into `process.env`
-require("dotenv").config();
+const mongoose = require("mongoose"); // Import the Mongoose library to interact with MongoDB
 
-// Destructure the MongoDB connection URL from environment variables
-const { MONGODB_URL } = process.env;
+require("dotenv").config(); // Load environment variables from a `.env` file into `process.env`
 
-// Export a function named 'connect' to establish a connection with MongoDB
-exports.connect = () => {
+const { MONGODB_URL } = process.env; // Destructure the MongoDB connection URL from environment variables
+
+
+exports.connect = () => { // Export a function named 'connect' to establish a connection with MongoDB
 	mongoose
 		.connect(MONGODB_URL, {
 			useNewUrlparser: true, // Parses MongoDB connection string correctly (legacy option).
@@ -16,11 +14,8 @@ exports.connect = () => {
 		})
 		.then(console.log(`DB Connection Success`))
 		.catch((err) => {
-      // Log a failure message for easier debugging
-			console.log(`DB Connection Failed`);
-      // Log the actual error message for detailed information
-			console.log(err);
-      // Exit the Node.js process with a failure code (1) to indicate an error
-			process.exit(1);
+			console.log(`DB Connection Failed`); // Log a failure message for easier debugging
+			console.log(err); // Log the actual error message for detailed information
+			process.exit(1); // Exit the Node.js process with a failure code (1) to indicate an error
 		});
 };

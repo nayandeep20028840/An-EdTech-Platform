@@ -13,8 +13,8 @@ const {
 } = studentEndpoints
 
 // Load the Razorpay SDK from the CDN
-function loadScript(src) {
-  return new Promise((resolve) => {
+function loadScript(src) { 
+  return new Promise((resolve) => { // Return a promise which is resolved when the script is loaded
     const script = document.createElement("script")
     script.src = src
     script.onload = () => {
@@ -66,18 +66,18 @@ export async function BuyCourse(
 
     // Opening the Razorpay SDK
     const options = {
-      key: process.env.RAZORPAY_KEY,
-      currency: orderResponse.data.data.currency,
-      amount: `${orderResponse.data.data.amount}`,
-      order_id: orderResponse.data.data.id,
+      key: process.env.RAZORPAY_KEY, // Enter the Key ID generated from the Dashboard
+      currency: orderResponse.data.data.currency, // Use any of the following ISO codes: https://razorpay.com/docs/payment-gateway/payments/international-payments/#supported-currencies
+      amount: `${orderResponse.data.data.amount}`, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      order_id: orderResponse.data.data.id, // This is a sample Order ID. Pass the `id` obtained in the response of Step 1
       name: "StudyNotion",
       description: "Thank you for Purchasing the Course.",
       image: rzpLogo,
-      prefill: {
+      prefill: { // Pass customer details
         name: `${user_details.firstName} ${user_details.lastName}`,
         email: user_details.email,
       },
-      handler: function (response) {
+      handler: function (response) { // This function will be called after the payment is successful
         sendPaymentSuccessEmail(response, orderResponse.data.data.amount, token)
         verifyPayment({ ...response, courses }, token, navigate, dispatch)
       },
@@ -101,8 +101,9 @@ async function verifyPayment(bodyData, token, navigate, dispatch) {
   const toastId = toast.loading("Verifying Payment...")
   dispatch(setPaymentLoading(true))
   try {
+    // Verifying the Payment in Backend
     const response = await apiConnector("POST", COURSE_VERIFY_API, bodyData, {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${token}`, // Setting the Authorization header with the token
     })
 
     console.log("VERIFY PAYMENT RESPONSE FROM BACKEND............", response)

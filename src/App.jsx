@@ -1,12 +1,10 @@
-// Importing useEffect for side-effects like API calls
-import { useEffect } from "react"
-// Importing global CSS styles
-import "./App.css"
 
-// Redux-related imports for state management
-import { useDispatch, useSelector } from "react-redux"
-// React Router imports for routing and navigation
-import { Route, Routes, useNavigate } from "react-router-dom"
+import { useEffect } from "react" // Importing useEffect for side-effects like API calls
+import "./App.css" // Importing global CSS styles
+
+
+import { useDispatch, useSelector } from "react-redux" // Redux-related imports for state management
+import { Route, Routes, useNavigate } from "react-router-dom" // React Router imports for routing and navigation
 
 // Components - Navbar and route-specific wrappers
 import Navbar from "./components/Common/Navbar"
@@ -39,26 +37,22 @@ import UpdatePassword from "./pages/UpdatePassword"
 import VerifyEmail from "./pages/VerifyEmail"
 import ViewCourse from "./pages/ViewCourse"
 
-// Redux action to fetch user details
-import { getUserDetails } from "./services/operations/profileAPI"
 
-// Account types (constants for roles)
-import { ACCOUNT_TYPE } from "./utils/constants"
+import { getUserDetails } from "./services/operations/profileAPI" // Redux action to fetch user details
+
+import { ACCOUNT_TYPE } from "./utils/constants" // Account types (constants for roles)
 
 function App() {
   const dispatch = useDispatch(); // To dispatch Redux actions
   const navigate = useNavigate(); // To programmatically navigate to other routes
   const { user } = useSelector((state) => state.profile); // Accessing user data from Redux state
   
-  // useEffect runs on component mount
-  useEffect(() => {
-    // If a token exists in localStorage, fetch user details
-    if (localStorage.getItem("token")) {
+  useEffect(() => { // useEffect runs on component mount
+    if (localStorage.getItem("token")) { // If a token exists in localStorage, fetch user details
       const token = JSON.parse(localStorage.getItem("token"))
       dispatch(getUserDetails(token, navigate)); // Dispatch action to fetch user details
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, []) // eslint-disable-next-line react-hooks/exhaustive-deps
 
   return (
     <div className="flex min-h-screen w-screen flex-col bg-richblack-900 font-inter">

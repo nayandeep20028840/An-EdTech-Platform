@@ -9,8 +9,8 @@ import { logout } from "../../../services/operations/authAPI"
 
 export default function ProfileDropdown() {
   const { user } = useSelector((state) => state.profile)
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
+  const dispatch = useDispatch() // Dispatch hook for Redux actions
+  const navigate = useNavigate() // useNavigate for programmatic navigation
   const [open, setOpen] = useState(false)
   const ref = useRef(null)
 

@@ -52,6 +52,7 @@ exports.createSubSection = async (req, res) => {
   }
 }
 
+// Update an existing sub-section for a given section and sub-section ID 
 exports.updateSubSection = async (req, res) => {
   try {
     const { sectionId, subSectionId, title, description } = req.body
@@ -104,6 +105,7 @@ exports.updateSubSection = async (req, res) => {
   }
 }
 
+// Delete a sub-section for a given section and sub-section ID
 exports.deleteSubSection = async (req, res) => {
   try {
     const { subSectionId, sectionId } = req.body

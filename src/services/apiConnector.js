@@ -1,8 +1,7 @@
-// Importing the Axios library to handle HTTP requests
-import axios from "axios";
 
-// Creating an instance of Axios with default configuration (optional, here it's empty)
-export const axiosInstance = axios.create({});
+import axios from "axios"; // Importing the Axios library to handle HTTP requests
+
+export const axiosInstance = axios.create({}); // Creating an instance of Axios with default configuration (optional, here it's empty)
 
 // A function to handle API requests with configurable method, URL, body, headers, and parameters
 export const apiConnector = (method, url, bodyData, headers, params) => {

@@ -3,6 +3,8 @@ const Category = require("../models/Category")
 function getRandomInt(max) {
   return Math.floor(Math.random() * max)
 }
+
+// Create a new category which means a new course
 exports.createCategory = async (req, res) => {
   try {
     const { name, description } = req.body
@@ -28,6 +30,7 @@ exports.createCategory = async (req, res) => {
   }
 }
 
+// Get all categories from the database
 exports.showAllCategories = async (req, res) => {
   try {
     const allCategorys = await Category.find()
@@ -43,6 +46,7 @@ exports.showAllCategories = async (req, res) => {
   }
 }
 
+// Get a single category from the database
 exports.categoryPageDetails = async (req, res) => {
   try {
     const { categoryId } = req.body

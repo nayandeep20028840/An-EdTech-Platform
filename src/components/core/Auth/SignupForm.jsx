@@ -10,8 +10,8 @@ import { ACCOUNT_TYPE } from "../../../utils/constants"
 import Tab from "../../Common/Tab"
 
 function SignupForm() {
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const navigate = useNavigate() // Hook for navigation
+  const dispatch = useDispatch() // Hook for dispatching Redux actions
 
   // student or instructor
   const [accountType, setAccountType] = useState(ACCOUNT_TYPE.STUDENT)

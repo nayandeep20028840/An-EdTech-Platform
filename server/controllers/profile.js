@@ -6,6 +6,7 @@ const User = require("../models/User")
 const { uploadImageToCloudinary } = require("../utils/imageUploader")
 const mongoose = require("mongoose")
 const { convertSecondsToDuration } = require("../utils/secToDuration")
+
 // Method for updating a profile
 exports.updateProfile = async (req, res) => {
   try {
@@ -57,6 +58,7 @@ exports.updateProfile = async (req, res) => {
   }
 }
 
+// Method for deleting a profile and associated user
 exports.deleteAccount = async (req, res) => {
   try {
     const id = req.user.id
@@ -94,6 +96,7 @@ exports.deleteAccount = async (req, res) => {
   }
 }
 
+// Method for getting all user details including profile
 exports.getAllUserDetails = async (req, res) => {
   try {
     const id = req.user.id
@@ -114,10 +117,12 @@ exports.getAllUserDetails = async (req, res) => {
   }
 }
 
+// Method for updating a profile picture of a user from the cloudinary
 exports.updateDisplayPicture = async (req, res) => {
   try {
     const displayPicture = req.files.displayPicture
     const userId = req.user.id
+    // Check if the user has uploaded a file
     const image = await uploadImageToCloudinary(
       displayPicture,
       process.env.FOLDER_NAME,

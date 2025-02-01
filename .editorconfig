@@ -1,3 +1,5 @@
+# Maintains consistent coding styles across different text editors and IDEs
+
 # editorconfig.org
 root = true
 

@@ -11,13 +11,14 @@ const {
   GET_INSTRUCTOR_DATA_API,
 } = profileEndpoints
 
+// Function to get user details
 export function getUserDetails(token, navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
     try {
       const response = await apiConnector("GET", GET_USER_DETAILS_API, null, {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`, // Setting the Authorization header with the token
       })
       console.log("GET_USER_DETAILS API RESPONSE............", response)
 

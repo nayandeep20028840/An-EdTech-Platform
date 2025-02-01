@@ -5,15 +5,8 @@ import { IoAddCircleOutline } from "react-icons/io5"
 import { MdNavigateNext } from "react-icons/md"
 import { useDispatch, useSelector } from "react-redux"
 
-import {
-  createSection,
-  updateSection,
-} from "../../../../../services/operations/courseDetailsAPI"
-import {
-  setCourse,
-  setEditCourse,
-  setStep,
-} from "../../../../../slices/courseSlice"
+import { createSection, updateSection } from "../../../../../services/operations/courseDetailsAPI"
+import { setCourse, setEditCourse, setStep } from "../../../../../slices/courseSlice"
 import IconBtn from "../../../../Common/IconBtn"
 import NestedView from "./NestedView"
 
