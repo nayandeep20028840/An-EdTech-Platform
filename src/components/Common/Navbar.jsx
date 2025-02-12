@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AiOutlineMenu, AiOutlineShoppingCart } from "react-icons/ai";
+import { AiOutlineMenu, AiOutlineClose, AiOutlineShoppingCart } from "react-icons/ai";
 import { BsChevronDown } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { Link, matchPath, useLocation } from "react-router-dom";
@@ -19,21 +19,21 @@ function Navbar() {
 
   const [subLinks, setSubLinks] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar State
 
   useEffect(() => {
     (async () => {
       setLoading(true);
       try {
         const res = await apiConnector("GET", categories.CATEGORIES_API);
-        // Ensure the response data is in the expected format
         if (res.data && res.data.data) {
           setSubLinks(res.data.data);
         } else {
-          setSubLinks([]); // Fallback to an empty array if data is not in the expected format
+          setSubLinks([]);
         }
       } catch (error) {
         console.log("Could not fetch Categories.", error);
-        setSubLinks([]); // Fallback to an empty array on error
+        setSubLinks([]);
       }
       setLoading(false);
     })();
@@ -55,7 +55,7 @@ function Navbar() {
           <img src={logo} alt="Logo" width={160} height={32} loading="lazy" />
         </Link>
 
-        {/* Navigation links */}
+        {/* Desktop Navigation */}
         <nav className="hidden md:block">
           <ul className="flex gap-x-6 text-richblack-25">
             {NavbarLinks.map((link, index) => (
@@ -113,7 +113,7 @@ function Navbar() {
         </nav>
 
         {/* Login / Signup / Dashboard */}
-        <div className="hidden items-center gap-x-4 md:flex">
+        <div className="hidden md:flex items-center gap-x-4">
           {user && user?.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
             <Link to="/dashboard/cart" className="relative">
               <AiOutlineShoppingCart className="text-2xl text-richblack-100" />
@@ -125,27 +125,63 @@ function Navbar() {
             </Link>
           )}
           {token === null && (
-            <Link to="/login">
-              <button className="rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100">
-                Log in
-              </button>
-            </Link>
-          )}
-          {token === null && (
-            <Link to="/signup">
-              <button className="rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100">
-                Sign up
-              </button>
-            </Link>
+            <>
+              <Link to="/login">
+                <button className="rounded-lg border border-richblack-700 bg-richblack-800 px-4 py-2 text-white">
+                  Log in
+                </button>
+              </Link>
+              <Link to="/signup">
+                <button className="rounded-lg border border-richblack-700 bg-richblack-800 px-4 py-2 text-white">
+                  Sign up
+                </button>
+              </Link>
+            </>
           )}
           {token !== null && <ProfileDropdown />}
         </div>
 
-        {/* Mobile menu button */}
-        <button className="mr-4 md:hidden">
+        {/* Mobile Sidebar Button */}
+        <button className="md:hidden" onClick={() => setIsSidebarOpen(true)}>
           <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
         </button>
       </div>
+
+      {/* Full-Screen Sidebar */}
+      {isSidebarOpen && (
+        <div className="fixed top-0 left-0 w-full h-full bg-richblack-900 text-white flex flex-col items-center justify-center z-50 transition-all duration-300">
+          {/* Close Button */}
+          <button className="absolute top-4 right-4 text-2xl" onClick={() => setIsSidebarOpen(false)}>
+            <AiOutlineClose />
+          </button>
+
+          {/* Sidebar Links */}
+          <nav className="flex flex-col gap-6 text-2xl">
+            {NavbarLinks.map((link, index) => (
+              <Link
+                key={index}
+                to={link?.path}
+                className="hover:text-yellow-300"
+                onClick={() => setIsSidebarOpen(false)}
+              >
+                {link.title}
+              </Link>
+            ))}
+            {token === null ? (
+              <>
+                <Link to="/login" onClick={() => setIsSidebarOpen(false)}>
+                  <button className="mt-2 text-xl">Log in</button>
+                </Link>
+                <Link to="/signup" onClick={() => setIsSidebarOpen(false)}>
+                  <button className="mt-2 text-xl">Sign up</button>
+                </Link>
+              </>
+            ) : (
+              <ProfileDropdown />
+            )}
+          </nav>
+        </div>
+      )}
     </div>
   );
 }

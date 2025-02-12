@@ -1,17 +1,15 @@
+
 const { instance } = require("../config/razorpay")
 const Course = require("../models/Course")
 const crypto = require("crypto")
 const User = require("../models/User")
 const mailSender = require("../utils/mailSender")
 const mongoose = require("mongoose")
-const {
-  courseEnrollmentEmail,
-} = require("../mail/templates/courseEnrollmentEmail")
+const { courseEnrollmentEmail } = require("../mail/templates/courseEnrollmentEmail")
 const { paymentSuccessEmail } = require("../mail/templates/paymentSuccessEmail")
 const CourseProgress = require("../models/CourseProgress")
 
-// Capture the payment and initiate the Razorpay order
-exports.capturePayment = async (req, res) => {
+exports.capturePayment = async (req, res) => { // Capture the payment and initiate the Razorpay order
   const { courses } = req.body
   const userId = req.user.id
   if (courses.length === 0) {
@@ -23,26 +21,21 @@ exports.capturePayment = async (req, res) => {
   for (const course_id of courses) {
     let course
     try {
-      // Find the course by its ID
-      course = await Course.findById(course_id)
-
-      // If the course is not found, return an error
-      if (!course) {
+      course = await Course.findById(course_id) // Find the course by its ID
+      if (!course) { // If the course is not found, return an error
         return res
           .status(200)
           .json({ success: false, message: "Could not find the Course" })
       }
 
-      // Check if the user is already enrolled in the course
-      const uid = new mongoose.Types.ObjectId(userId)
+      const uid = new mongoose.Types.ObjectId(userId) // Check if the user is already enrolled in the course
       if (course.studentsEnroled.includes(uid)) {
         return res
           .status(200)
           .json({ success: false, message: "Student is already Enrolled" })
       }
 
-      // Add the price of the course to the total amount
-      total_amount += course.price
+      total_amount += course.price // Add the price of the course to the total amount
     } catch (error) {
       console.log(error)
       return res.status(500).json({ success: false, message: error.message })
@@ -80,13 +73,7 @@ exports.verifyPayment = async (req, res) => {
 
   const userId = req.user.id
 
-  if (
-    !razorpay_order_id ||
-    !razorpay_payment_id ||
-    !razorpay_signature ||
-    !courses ||
-    !userId
-  ) {
+  if ( !razorpay_order_id || !razorpay_payment_id || !razorpay_signature || !courses || !userId ) {
     return res.status(200).json({ success: false, message: "Payment Failed" })
   }
 
@@ -181,8 +168,8 @@ const enrollStudents = async (courses, userId, res) => {
       )
 
       console.log("Enrolled student: ", enrolledStudent)
-      // Send an email notification to the enrolled student
-      const emailResponse = await mailSender(
+      
+      const emailResponse = await mailSender( // Send an email notification to the enrolled student
         enrolledStudent.email,
         `Successfully Enrolled into ${enrolledCourse.courseName}`,
         courseEnrollmentEmail(

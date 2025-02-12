@@ -2,15 +2,9 @@ import { createSlice } from "@reduxjs/toolkit"
 import { toast } from "react-hot-toast"
 
 const initialState = {
-  cart: localStorage.getItem("cart")
-    ? JSON.parse(localStorage.getItem("cart"))
-    : [],
-  total: localStorage.getItem("total")
-    ? JSON.parse(localStorage.getItem("total"))
-    : 0,
-  totalItems: localStorage.getItem("totalItems")
-    ? JSON.parse(localStorage.getItem("totalItems"))
-    : 0,
+  cart: localStorage.getItem("cart") ? JSON.parse(localStorage.getItem("cart")) : [],
+  total: localStorage.getItem("total") ? JSON.parse(localStorage.getItem("total")) : 0,
+  totalItems: localStorage.getItem("totalItems") ? JSON.parse(localStorage.getItem("totalItems")) : 0,
 }
 
 const cartSlice = createSlice({
@@ -30,8 +24,8 @@ const cartSlice = createSlice({
       
       state.totalItems++ // Update the total quantity and price
       state.total += course.price
-      // Update to localstorage
-      localStorage.setItem("cart", JSON.stringify(state.cart))
+      
+      localStorage.setItem("cart", JSON.stringify(state.cart)) // Update to localstorage
       localStorage.setItem("total", JSON.stringify(state.total))
       localStorage.setItem("totalItems", JSON.stringify(state.totalItems))
       
@@ -45,8 +39,8 @@ const cartSlice = createSlice({
         state.totalItems-- // If the course is found in the cart, remove it
         state.total -= state.cart[index].price
         state.cart.splice(index, 1)
-        // Update to localstorage
-        localStorage.setItem("cart", JSON.stringify(state.cart))
+        
+        localStorage.setItem("cart", JSON.stringify(state.cart)) // Update to localstorage
         localStorage.setItem("total", JSON.stringify(state.total))
         localStorage.setItem("totalItems", JSON.stringify(state.totalItems))
 
@@ -57,8 +51,8 @@ const cartSlice = createSlice({
       state.cart = []
       state.total = 0
       state.totalItems = 0
-      // Update to localstorage
-      localStorage.removeItem("cart")
+      
+      localStorage.removeItem("cart") // Update to localstorage
       localStorage.removeItem("total")
       localStorage.removeItem("totalItems")
     },

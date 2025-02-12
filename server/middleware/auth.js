@@ -1,51 +1,41 @@
-// Importing required modules
+
 const jwt = require("jsonwebtoken"); // For generating and verifying JSON Web Tokens (JWTs)
 const dotenv = require("dotenv"); // For loading environment variables from .env file
 const User = require("../models/User"); // Importing the User model to interact with the user database
 
-// Configuring dotenv to load environment variables from .env file
-dotenv.config();
+dotenv.config(); // Configuring dotenv to load environment variables from .env file
 
-// This function is used as middleware to authenticate user requests
-exports.auth = async (req, res, next) => {
+exports.auth = async (req, res, next) => { // This function is used as middleware to authenticate user requests
 	try {
-		// Extracting JWT from request cookies, body or header
 		const token =
 			req.cookies.token ||
 			req.body.token ||
-			req.header("Authorization").replace("Bearer ", "");
+			req.header("Authorization").replace("Bearer ", ""); // Extracting JWT from request cookies, body or headers
 
-		// If JWT is missing, return 401 Unauthorized response
-		if (!token) {
+		if (!token) { // If JWT is missing, return 401 Unauthorized response
 			return res.status(401).json({ success: false, message: `Token Missing` });
 		}
 
 		try {
-			// Verifying the JWT using the secret key stored in environment variables
-			const decode = await jwt.verify(token, process.env.JWT_SECRET);
+			const decode = await jwt.verify(token, process.env.JWT_SECRET); // Verifying the JWT using the secret key stored in environment variables
 			console.log(decode);
-			// Storing the decoded JWT payload in the request object for further use
-			req.user = decode;
+			req.user = decode; // Storing the decoded JWT payload in the request object for further use
 		} catch (error) {
-			// If JWT verification fails, return 401 Unauthorized response
 			return res
 				.status(401)
-				.json({ success: false, message: "token is invalid" });
+				.json({ success: false, message: "token is invalid" }); // If JWT verification fails, return 401 Unauthorized response
 		}
 
-		// If JWT is valid, move on to the next middleware or request handler
-		next();
+		next(); // If JWT is valid, move on to the next middleware or request handler
 	} catch (error) {
-		// If there is an error during the authentication process, return 401 Unauthorized response
-		return res.status(401).json({
+		return res.status(401).json({ // If there is an error during the authentication process, return 401 Unauthorized response
 			success: false,
 			message: `Something Went Wrong While Validating the Token`,
 		});
 	}
 };
 
-// Middleware function to verify if the user is a student
-exports.isStudent = async (req, res, next) => {
+exports.isStudent = async (req, res, next) => { // Middleware function to verify if the user is a student
 	try {
 		const userDetails = await User.findOne({ email: req.user.email });
 
@@ -63,8 +53,7 @@ exports.isStudent = async (req, res, next) => {
 	}
 };
 
-// Middleware function to verify if the user is an admin
-exports.isAdmin = async (req, res, next) => {
+exports.isAdmin = async (req, res, next) => { // Middleware function to verify if the user is an admin
 	try {
 		const userDetails = await User.findOne({ email: req.user.email });
 
@@ -82,11 +71,9 @@ exports.isAdmin = async (req, res, next) => {
 	}
 };
 
-// Middleware function to verify if the user is an instructor
-exports.isInstructor = async (req, res, next) => {
+exports.isInstructor = async (req, res, next) => { // Middleware function to verify if the user is an instructor
 	try {
-    // Fetching user details from the database based on the decoded token email
-		const userDetails = await User.findOne({ email: req.user.email });
+		const userDetails = await User.findOne({ email: req.user.email }); // Fetching user details from the database based on the decoded token email
     
 		console.log(userDetails);
 		console.log(userDetails.accountType);
@@ -97,8 +84,7 @@ exports.isInstructor = async (req, res, next) => {
 				message: "This is a Protected Route for Instructor",
 			});
 		}
-    // If the user is an instructor, proceed to the next middleware or request handler
-		next();
+		next(); // If the user is an instructor, proceed to the next middleware or request handler
 	} catch (error) {
 		return res
 			.status(500)

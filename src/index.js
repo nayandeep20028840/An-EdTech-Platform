@@ -1,21 +1,12 @@
-// Importing React to create and use React components
-import React from "react";
-// Importing ReactDOM for rendering React components into the DOM
-import ReactDOM from "react-dom/client";
-// Importing the main application component
-import App from "./App";
 
-// Importing BrowserRouter from React Router to enable client-side routing
-import { BrowserRouter } from "react-router-dom";
-// Importing Toaster from react-hot-toast to show toast notifications in the application
-import { Toaster } from "react-hot-toast";
-
-// Importing Provider from React Redux to integrate the Redux store with the React app
-import { Provider } from "react-redux";
-// Importing configureStore from Redux Toolkit to create the Redux store
-import { configureStore } from "@reduxjs/toolkit";
-// Importing the root reducer which combines all the app's reducers
-import rootReducer from "./reducer";
+import React from "react"; // Importing React to create and use React components
+import ReactDOM from "react-dom/client"; // Importing ReactDOM for rendering React components into the DOM
+import App from "./App"; // Importing the main application component
+import { BrowserRouter } from "react-router-dom";  // Importing BrowserRouter from React Router to enable client-side routing
+import { Toaster } from "react-hot-toast"; // Importing Toaster from react-hot-toast to show toast notifications in the application
+import { Provider } from "react-redux"; // Importing Provider from React Redux to integrate the Redux store with the React app
+import { configureStore } from "@reduxjs/toolkit"; // Importing configureStore from Redux Toolkit to create the Redux store
+import rootReducer from "./reducer"; // Importing the root reducer which combines all the app's reducers
 
 // Creating the Redux store using configureStore, which takes a configuration object
 // The `reducer` property is set to the rootReducer, which contains the app's state logic
@@ -23,13 +14,12 @@ const store = configureStore({
   reducer: rootReducer,
 });
 
-// Selecting the root DOM element where the React app will be rendered
-const root = ReactDOM.createRoot(document.getElementById("root"));
+const root = ReactDOM.createRoot(document.getElementById("root")); // Selecting the root DOM element where the React app will be rendered
 
-// Rendering the React app inside the root DOM element
-root.render(
+root.render( // Rendering the React app inside the root DOM element
   <React.StrictMode>
-    <Provider store={store}>
+    {/* Providing the Redux store to the entire application using the Provider component */}
+    <Provider store={store}> 
       <BrowserRouter>
         <App />
         <Toaster />

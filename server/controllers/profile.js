@@ -7,20 +7,11 @@ const { uploadImageToCloudinary } = require("../utils/imageUploader")
 const mongoose = require("mongoose")
 const { convertSecondsToDuration } = require("../utils/secToDuration")
 
-// Method for updating a profile
 exports.updateProfile = async (req, res) => {
   try {
-    const {
-      firstName = "",
-      lastName = "",
-      dateOfBirth = "",
-      about = "",
-      contactNumber = "",
-      gender = "",
-    } = req.body
+    const { firstName = "", lastName = "", dateOfBirth = "", about = "", contactNumber = "", gender = "" } = req.body
     const id = req.user.id
 
-    // Find the profile by id
     const userDetails = await User.findById(id)
     const profile = await Profile.findById(userDetails.additionalDetails)
 
@@ -30,16 +21,13 @@ exports.updateProfile = async (req, res) => {
     })
     await user.save()
 
-    // Update the profile fields
     profile.dateOfBirth = dateOfBirth
     profile.about = about
     profile.contactNumber = contactNumber
     profile.gender = gender
 
-    // Save the updated profile
     await profile.save()
 
-    // Find the updated user details
     const updatedUserDetails = await User.findById(id)
       .populate("additionalDetails")
       .exec()
@@ -58,7 +46,6 @@ exports.updateProfile = async (req, res) => {
   }
 }
 
-// Method for deleting a profile and associated user
 exports.deleteAccount = async (req, res) => {
   try {
     const id = req.user.id
@@ -70,7 +57,6 @@ exports.deleteAccount = async (req, res) => {
         message: "User not found",
       })
     }
-    // Delete Assosiated Profile with the User
     await Profile.findByIdAndDelete({
       _id: new mongoose.Types.ObjectId(user.additionalDetails),
     })
@@ -81,7 +67,6 @@ exports.deleteAccount = async (req, res) => {
         { new: true }
       )
     }
-    // Now Delete User
     await User.findByIdAndDelete({ _id: id })
     res.status(200).json({
       success: true,
@@ -96,7 +81,6 @@ exports.deleteAccount = async (req, res) => {
   }
 }
 
-// Method for getting all user details including profile
 exports.getAllUserDetails = async (req, res) => {
   try {
     const id = req.user.id
@@ -117,13 +101,12 @@ exports.getAllUserDetails = async (req, res) => {
   }
 }
 
-// Method for updating a profile picture of a user from the cloudinary
 exports.updateDisplayPicture = async (req, res) => {
   try {
     const displayPicture = req.files.displayPicture
     const userId = req.user.id
-    // Check if the user has uploaded a file
-    const image = await uploadImageToCloudinary(
+    
+    const image = await uploadImageToCloudinary( // Check if the user has uploaded a file
       displayPicture,
       process.env.FOLDER_NAME,
       1000,
@@ -187,8 +170,7 @@ exports.getEnrolledCourses = async (req, res) => {
       if (SubsectionLength === 0) {
         userDetails.courses[i].progressPercentage = 100
       } else {
-        // To make it up to 2 decimal point
-        const multiplier = Math.pow(10, 2)
+        const multiplier = Math.pow(10, 2) // To make it up to 2 decimal point
         userDetails.courses[i].progressPercentage =
           Math.round(
             (courseProgressCount / SubsectionLength) * 100 * multiplier
@@ -222,13 +204,13 @@ exports.instructorDashboard = async (req, res) => {
       const totalStudentsEnrolled = course.studentsEnroled.length
       const totalAmountGenerated = totalStudentsEnrolled * course.price
 
-      // Create a new object with the additional fields
-      const courseDataWithStats = {
+      
+      const courseDataWithStats = { // Create a new object with the additional fields
         _id: course._id,
         courseName: course.courseName,
         courseDescription: course.courseDescription,
-        // Include other course properties as needed
-        totalStudentsEnrolled,
+        
+        totalStudentsEnrolled, // Include other course properties as needed
         totalAmountGenerated,
       }
 

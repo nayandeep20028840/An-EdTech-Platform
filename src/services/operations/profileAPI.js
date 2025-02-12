@@ -5,13 +5,8 @@ import { apiConnector } from "../apiConnector"
 import { profileEndpoints } from "../apis"
 import { logout } from "./authAPI"
 
-const {
-  GET_USER_DETAILS_API,
-  GET_USER_ENROLLED_COURSES_API,
-  GET_INSTRUCTOR_DATA_API,
-} = profileEndpoints
+const { GET_USER_DETAILS_API, GET_USER_ENROLLED_COURSES_API, GET_INSTRUCTOR_DATA_API } = profileEndpoints
 
-// Function to get user details
 export function getUserDetails(token, navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
@@ -43,18 +38,11 @@ export async function getUserEnrolledCourses(token) {
   const toastId = toast.loading("Loading...")
   let result = []
   try {
-    const response = await apiConnector(
-      "GET",
-      GET_USER_ENROLLED_COURSES_API,
-      null,
-      {
+    const response = await apiConnector( "GET", GET_USER_ENROLLED_COURSES_API, null, {
         Authorization: `Bearer ${token}`,
       }
     )
-    // console.log(
-    //   "GET_USER_ENROLLED_COURSES_API API RESPONSE............",
-    //   response
-    // )
+    // console.log( "GET_USER_ENROLLED_COURSES_API API RESPONSE............", response )
 
     if (!response.data.success) {
       throw new Error(response.data.message)

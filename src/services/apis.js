@@ -1,4 +1,6 @@
-const BASE_URL = process.env.REACT_APP_BASE_URL
+// const dotenv = require("dotenv");
+// const BASE_URL = process.env.REACT_APP_BASE_URL // but this is not working
+const BASE_URL = `http://localhost:4000/api/v1` // this is working fine
 
 // AUTH ENDPOINTS
 export const endpoints = {
@@ -38,8 +40,7 @@ export const courseEndpoints = {
   DELETE_SECTION_API: BASE_URL + "/course/deleteSection",
   DELETE_SUBSECTION_API: BASE_URL + "/course/deleteSubSection",
   DELETE_COURSE_API: BASE_URL + "/course/deleteCourse",
-  GET_FULL_COURSE_DETAILS_AUTHENTICATED:
-    BASE_URL + "/course/getFullCourseDetails",
+  GET_FULL_COURSE_DETAILS_AUTHENTICATED: BASE_URL + "/course/getFullCourseDetails",
   LECTURE_COMPLETION_API: BASE_URL + "/course/updateCourseProgress",
   CREATE_RATING_API: BASE_URL + "/course/createRating",
 }
@@ -58,6 +59,7 @@ export const categories = {
 export const catalogData = {
   CATALOGPAGEDATA_API: BASE_URL + "/course/getCategoryPageDetails",
 }
+
 // CONTACT-US API
 export const contactusEndpoint = {
   CONTACT_US_API: BASE_URL + "/reach/contact",

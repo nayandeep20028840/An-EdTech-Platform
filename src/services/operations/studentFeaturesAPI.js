@@ -6,14 +6,10 @@ import { setPaymentLoading } from "../../slices/courseSlice"
 import { apiConnector } from "../apiConnector"
 import { studentEndpoints } from "../apis"
 
-const {
-  COURSE_PAYMENT_API,
-  COURSE_VERIFY_API,
-  SEND_PAYMENT_SUCCESS_EMAIL_API,
-} = studentEndpoints
+const { COURSE_PAYMENT_API, COURSE_VERIFY_API, SEND_PAYMENT_SUCCESS_EMAIL_API } = studentEndpoints
 
-// Load the Razorpay SDK from the CDN
-function loadScript(src) { 
+
+function loadScript(src) {  // Load the Razorpay SDK from the CDN
   return new Promise((resolve) => { // Return a promise which is resolved when the script is loaded
     const script = document.createElement("script")
     script.src = src
@@ -28,17 +24,10 @@ function loadScript(src) {
 }
 
 // Buy the Course
-export async function BuyCourse(
-  token,
-  courses,
-  user_details,
-  navigate,
-  dispatch
-) {
+export async function BuyCourse( token, courses, user_details, navigate, dispatch ) {
   const toastId = toast.loading("Loading...")
   try {
-    // Loading the script of Razorpay SDK
-    const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js")
+    const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js") // Loading the script of Razorpay SDK
 
     if (!res) {
       toast.error(
@@ -47,14 +36,7 @@ export async function BuyCourse(
       return
     }
 
-    // Initiating the Order in Backend
-    const orderResponse = await apiConnector(
-      "POST",
-      COURSE_PAYMENT_API,
-      {
-        courses,
-      },
-      {
+    const orderResponse = await apiConnector( "POST", COURSE_PAYMENT_API, courses, { // Initiating the Order in Backend
         Authorization: `Bearer ${token}`,
       }
     )
@@ -64,8 +46,7 @@ export async function BuyCourse(
     }
     console.log("PAYMENT RESPONSE FROM BACKEND............", orderResponse.data)
 
-    // Opening the Razorpay SDK
-    const options = {
+    const options = { // Opening the Razorpay SDK
       key: process.env.RAZORPAY_KEY, // Enter the Key ID generated from the Dashboard
       currency: orderResponse.data.data.currency, // Use any of the following ISO codes: https://razorpay.com/docs/payment-gateway/payments/international-payments/#supported-currencies
       amount: `${orderResponse.data.data.amount}`, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -96,13 +77,11 @@ export async function BuyCourse(
   toast.dismiss(toastId)
 }
 
-// Verify the Payment
 async function verifyPayment(bodyData, token, navigate, dispatch) {
   const toastId = toast.loading("Verifying Payment...")
   dispatch(setPaymentLoading(true))
   try {
-    // Verifying the Payment in Backend
-    const response = await apiConnector("POST", COURSE_VERIFY_API, bodyData, {
+    const response = await apiConnector("POST", COURSE_VERIFY_API, bodyData, { // Verifying the Payment in Backend
       Authorization: `Bearer ${token}`, // Setting the Authorization header with the token
     })
 
@@ -123,7 +102,6 @@ async function verifyPayment(bodyData, token, navigate, dispatch) {
   dispatch(setPaymentLoading(false))
 }
 
-// Send the Payment Success Email
 async function sendPaymentSuccessEmail(response, amount, token) {
   try {
     await apiConnector(

@@ -13,8 +13,7 @@ function SignupForm() {
   const navigate = useNavigate() // Hook for navigation
   const dispatch = useDispatch() // Hook for dispatching Redux actions
 
-  // student or instructor
-  const [accountType, setAccountType] = useState(ACCOUNT_TYPE.STUDENT)
+  const [accountType, setAccountType] = useState(ACCOUNT_TYPE.STUDENT) // student or instructor
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -29,16 +28,14 @@ function SignupForm() {
 
   const { firstName, lastName, email, password, confirmPassword } = formData
 
-  // Handle input fields, when some value changes
-  const handleOnChange = (e) => {
+  const handleOnChange = (e) => { // Handle input fields, when some value changes
     setFormData((prevData) => ({
       ...prevData,
       [e.target.name]: e.target.value,
     }))
   }
 
-  // Handle Form Submission
-  const handleOnSubmit = (e) => {
+  const handleOnSubmit = (e) => { // Handle Form Submission
     e.preventDefault()
 
     if (password !== confirmPassword) {
@@ -50,13 +47,9 @@ function SignupForm() {
       accountType,
     }
 
-    // Setting signup data to state
-    // To be used after otp verification
-    dispatch(setSignupData(signupData))
-    // Send OTP to user for verification
-    dispatch(sendOtp(formData.email, navigate))
+    dispatch(setSignupData(signupData)) // Dispatching action to set signup data to state. To be used after otp verification
+    dispatch(sendOtp(formData.email, navigate)) // Send OTP to user for verification
 
-    // Reset
     setFormData({
       firstName: "",
       lastName: "",
