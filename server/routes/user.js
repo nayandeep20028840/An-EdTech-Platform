@@ -9,8 +9,8 @@ const { auth } = require("../middleware/auth")
 
 
 // Authentication routes
-router.post("/login", login)
 router.post("/signup", signup)
+router.post("/login", login)
 router.post("/sendotp", sendotp)
 router.post("/changepassword", auth, changePassword) 
 

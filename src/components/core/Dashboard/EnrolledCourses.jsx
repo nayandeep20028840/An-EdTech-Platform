@@ -12,17 +12,12 @@ export default function EnrolledCourses() {
 
   const [enrolledCourses, setEnrolledCourses] = useState(null)
 
-  useEffect(() => {
-    ;(async () => {
+  useEffect(() => { ;(async () => {
       try {
         const res = await getUserEnrolledCourses(token) // Getting all the published and the drafted courses
 
-        // Filtering the published course out
         const filterPublishCourse = res.filter((ele) => ele.status !== "Draft")
-        // console.log(
-        //   "Viewing all the couse that is Published",
-        //   filterPublishCourse
-        // )
+        // console.log( "Viewing all the couse that is Published", filterPublishCourse)
 
         setEnrolledCourses(filterPublishCourse)
       } catch (error) {

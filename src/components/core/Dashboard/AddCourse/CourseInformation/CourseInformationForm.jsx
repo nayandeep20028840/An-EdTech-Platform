@@ -5,11 +5,7 @@ import { HiOutlineCurrencyRupee } from "react-icons/hi"
 import { MdNavigateNext } from "react-icons/md"
 import { useDispatch, useSelector } from "react-redux"
 
-import {
-  addCourseDetails,
-  editCourseDetails,
-  fetchCourseCategories,
-} from "../../../../../services/operations/courseDetailsAPI"
+import { addCourseDetails, editCourseDetails, fetchCourseCategories } from "../../../../../services/operations/courseDetailsAPI"
 import { setCourse, setStep } from "../../../../../slices/courseSlice"
 import { COURSE_STATUS } from "../../../../../utils/constants"
 import IconBtn from "../../../../Common/IconBtn"
@@ -18,14 +14,7 @@ import ChipInput from "./ChipInput"
 import RequirementsField from "./RequirementsField"
 
 export default function CourseInformationForm() {
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    getValues,
-    formState: { errors },
-  } = useForm()
-
+  const { register, handleSubmit, setValue, getValues, formState: { errors } } = useForm()
   const dispatch = useDispatch()
   const { token } = useSelector((state) => state.auth)
   const { course, editCourse } = useSelector((state) => state.course)
@@ -69,8 +58,7 @@ export default function CourseInformationForm() {
       currentValues.courseTags.toString() !== course.tag.toString() ||
       currentValues.courseBenefits !== course.whatYouWillLearn ||
       currentValues.courseCategory._id !== course.category._id ||
-      currentValues.courseRequirements.toString() !==
-        course.instructions.toString() ||
+      currentValues.courseRequirements.toString() !== course.instructions.toString() ||
       currentValues.courseImage !== course.thumbnail
     ) {
       return true
@@ -110,10 +98,7 @@ export default function CourseInformationForm() {
         if (currentValues.courseCategory._id !== course.category._id) {
           formData.append("category", data.courseCategory)
         }
-        if (
-          currentValues.courseRequirements.toString() !==
-          course.instructions.toString()
-        ) {
+        if ( currentValues.courseRequirements.toString() !== course.instructions.toString() ) {
           formData.append(
             "instructions",
             JSON.stringify(data.courseRequirements)

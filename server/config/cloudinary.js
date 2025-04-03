@@ -1,7 +1,6 @@
 
 const cloudinary = require("cloudinary").v2; // Import the Cloudinary library and access its version 2 API
 
-
 exports.cloudinaryConnect = () => { // Export a function named 'cloudinaryConnect' to configure Cloudinary
 	try {
 		cloudinary.config({ // Configure Cloudinary with credentials to enable media uploads

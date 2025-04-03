@@ -5,7 +5,6 @@ require("dotenv").config(); // Load environment variables from a `.env` file int
 
 const { MONGODB_URL } = process.env; // Destructure the MongoDB connection URL from environment variables
 
-
 exports.connect = () => { // Export a function named 'connect' to establish a connection with MongoDB
 	mongoose
 		.connect(MONGODB_URL, {
